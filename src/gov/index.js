@@ -75,7 +75,7 @@ class Gov {
    *  votingPeriod: 604800
    * }
    */
-  async submitListProposal(listParams) {
+  async submitListProposal(listParams, sequence = null) {
     const listTradingPairObj = {
       base_asset_symbol: listParams.baseAsset,
       quote_asset_symbol: listParams.quoteAsset,
@@ -87,7 +87,7 @@ class Gov {
     const description = JSON.stringify(listTradingPairObj)
     const { address, title, initialDeposit, votingPeriod } = listParams
     return await this.submitProposal(address, title, description,
-      proposalType.ProposalTypeListTradingPair, initialDeposit, votingPeriod)
+      proposalType.ProposalTypeListTradingPair, initialDeposit, votingPeriod, sequence)
   }
 
   /**
