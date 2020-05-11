@@ -55,7 +55,7 @@ class TokenManagement {
    * @param {Boolean} - mintable
    * @returns {Promise} resolves with response (success or fail)
    */
-  async issue(senderAddress, tokenName, symbol, totalSupply = 0, mintable = false) {
+  async issue(senderAddress, tokenName, symbol, totalSupply = 0, mintable = false, sequence = null) {
     if (!senderAddress) {
       throw new Error("sender address cannot be empty")
     }
@@ -92,7 +92,7 @@ class TokenManagement {
       mintable,
     }
 
-    const signedTx = await this._bncClient._prepareTransaction(issueMsg, signIssueMsg, senderAddress)
+    const signedTx = await this._bncClient._prepareTransaction(issueMsg, signIssueMsg, senderAddress, sequence)
     return this._bncClient._broadcastDelegate(signedTx)
   }
 
@@ -103,7 +103,7 @@ class TokenManagement {
    * @param {String} amount
    * @returns {Promise}  resolves with response (success or fail)
    */
-  async freeze(fromAddress, symbol, amount) {
+  async freeze(fromAddress, symbol, amount, sequence = null) {
 
     validateSymbol(symbol)
 
@@ -125,7 +125,7 @@ class TokenManagement {
       symbol
     }
 
-    const signedTx = await this._bncClient._prepareTransaction(freezeMsg, freezeSignMsg, fromAddress)
+    const signedTx = await this._bncClient._prepareTransaction(freezeMsg, freezeSignMsg, fromAddress, sequence)
     return this._bncClient._broadcastDelegate(signedTx)
   }
 
@@ -136,7 +136,7 @@ class TokenManagement {
    * @param {String} amount
    * @returns {Promise}  resolves with response (success or fail)
    */
-  async unfreeze(fromAddress, symbol, amount) {
+  async unfreeze(fromAddress, symbol, amount, sequence = null) {
     validateSymbol(symbol)
 
     validateNonZeroAmount(amount, symbol, fromAddress, this._bncClient._httpClient, 'frozen')
@@ -157,7 +157,7 @@ class TokenManagement {
       symbol
     }
 
-    const signedTx = await this._bncClient._prepareTransaction(unfreezeMsg, unfreezeSignMsg, fromAddress)
+    const signedTx = await this._bncClient._prepareTransaction(unfreezeMsg, unfreezeSignMsg, fromAddress, sequence)
     return this._bncClient._broadcastDelegate(signedTx)
   }
 
@@ -168,7 +168,7 @@ class TokenManagement {
    * @param {Number} amount
    * @returns {Promise}  resolves with response (success or fail)
    */
-  async burn(fromAddress, symbol, amount) {
+  async burn(fromAddress, symbol, amount,sequence = null) {
     validateSymbol(symbol)
 
     validateNonZeroAmount(amount, symbol, fromAddress, this._bncClient._httpClient)
@@ -189,7 +189,7 @@ class TokenManagement {
       symbol
     }
 
-    const signedTx = await this._bncClient._prepareTransaction(burnMsg, burnSignMsg, fromAddress)
+    const signedTx = await this._bncClient._prepareTransaction(burnMsg, burnSignMsg, fromAddress, sequence)
     return this._bncClient._broadcastDelegate(signedTx)
   }
 
@@ -200,7 +200,7 @@ class TokenManagement {
    * @param {Number} amount
    * @returns {Promise}  resolves with response (success or fail)
    */
-  async mint(fromAddress, symbol, amount) {
+  async mint(fromAddress, symbol, amount, sequence = null) {
     validateSymbol(symbol)
 
     if (amount <= 0 || amount > MAXTOTALSUPPLY) {
@@ -223,7 +223,7 @@ class TokenManagement {
       symbol
     }
 
-    const signedTx = await this._bncClient._prepareTransaction(mintMsg, mintSignMsg, fromAddress)
+    const signedTx = await this._bncClient._prepareTransaction(mintMsg, mintSignMsg, fromAddress, sequence)
     console.log(signedTx)
     return this._bncClient._broadcastDelegate(signedTx)
   }

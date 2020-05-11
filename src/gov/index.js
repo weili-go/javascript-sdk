@@ -102,7 +102,7 @@ class Gov {
    * @param {String} votingPeriod
    * @return {Promise} resolves with response (success or fail)
    */
-  async submitProposal(address, title, description, proposalType, initialDeposit, votingPeriod) {
+  async submitProposal(address, title, description, proposalType, initialDeposit, votingPeriod, sequence = null) {
     const accAddress = crypto.decodeAddress(address)
     const coins = [{
       denom: 'BNB',
@@ -133,7 +133,7 @@ class Gov {
       voting_period: votingPeriod.toString(),
     }
 
-    const signedTx = await this._bncClient._prepareTransaction(proposalMsg, signMsg, address)
+    const signedTx = await this._bncClient._prepareTransaction(proposalMsg, signMsg, address, sequence)
     return this._bncClient._broadcastDelegate(signedTx)
   }
 
