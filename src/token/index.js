@@ -15,6 +15,7 @@ const validateNonZeroAmount = async (amount, symbol, fromAddress, httpClient, ty
   }
 
   try {
+    /*
     const { result } = await httpClient.request("get", `${api.getAccount}/${fromAddress}`)
     const balance = result.balances.find(b => b.symbol.toUpperCase() === symbol.toUpperCase())
     if (!balance) {
@@ -24,6 +25,10 @@ const validateNonZeroAmount = async (amount, symbol, fromAddress, httpClient, ty
     if (Number(balance[type]) < Number(amount)) {
       throw new Error(`the account doesn't have enougth balance`)
     }
+    */
+   console.log("-----------------------")
+   console.log("Note: Please make sure the account does have the symbol and have enougth balance!")
+   console.log("-----------------------")
 
   } catch (err) {
     //if get account failed. still broadcast
