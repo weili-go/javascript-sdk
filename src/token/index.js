@@ -224,7 +224,6 @@ class TokenManagement {
     }
 
     const signedTx = await this._bncClient._prepareTransaction(mintMsg, mintSignMsg, fromAddress, sequence)
-    console.log(signedTx)
     return this._bncClient._broadcastDelegate(signedTx)
   }
 
